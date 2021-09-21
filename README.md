@@ -1,10 +1,12 @@
-# POC Crossplane
+# POC [Crossplane](https://crossplane.io/docs/v1.4/)
+
 
 Challenge: 2021 is the year of IaC. We've built a cloud management platform (see the API spec here) to host a service catalog. Our customer, however, should not directly call its API but consume our services as infrastructure-as-code.
  
 Goal: Please setup a crossplane IaC lab and demonstrate how a code change triggers the provisioning/deletion of a resource in the Cloud. You may exclude other Day2 operations from the demo.
  
-Guiding question: 
+Guiding question and answers: 
+
 1) How does crossplane compare to k8s operators and terraform?
     - It adheres to the principles of Infrastructure as Data. It’s Kubernetes-native, so you use Kubernetes Custom Resources (YAML — i.e. text) to declaratively provision Cloud infrastructure.
     - No state file. Unlike Terraform and Pulumi, Crossplane doesn’t use a state file. That said, as a Kubernetes Operator, it has a controller to reconcile desired state against current state, making use of etcd to do so. 
@@ -25,6 +27,8 @@ Guiding question:
 4) How would you setup a production crossplane environment to manage 10k workloads (i.e., infra services)? (e.g., how many K8s clusters for crossplane? which other constraints do you see?).
     - Here preference will be ofcourse a CI/CD tool, eg. GitlabCI or some other GitOps tool that will talk to the Provisioner Kubernetes Cluster, Environments/Projects seperated by Kubernetes Namespaces with suitable configuration. 
     - 10k workload of infra services, may be in different region, different Cloud provider Accounts / Projects has to be properly maintained in SCM and defined pipeline to deploy changes.  
+
+[API Documentation](https://crossplane.io/docs/v1.4/api-docs/overview.html) 
 
 # LAB Setup.
 

@@ -24,7 +24,7 @@
 - gke cluster
     ```
     % kubectl apply -f ./gke.yml
-    gkecluster.container.gcp.crossplane.io/devops-cluster unchanged
+    gkecluster.container.gcp.crossplane.io/devops-cluster configured
     nodepool.container.gcp.crossplane.io/devops-cluster configured
     ```
 
@@ -36,4 +36,6 @@
 - cleanup
     ```
     % kubectl delete -f ./gke.yml
+    gkecluster.container.gcp.crossplane.io "devops-cluster" deleted
+    nodepool.container.gcp.crossplane.io "devops-cluster" deleted
     ```
