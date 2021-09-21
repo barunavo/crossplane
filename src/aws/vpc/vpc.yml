@@ -1,0 +1,135 @@
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: VPC
+metadata:
+  name: production-vpc
+spec:
+  forProvider:
+    region: us-east-1
+    cidrBlock: 192.168.0.0/16
+    enableDnsSupport: true
+    enableDnsHostNames: true
+    tags:
+    - key: Environment
+      value: Production
+    - key: Owner
+      value: devops
+    - key: Name
+      value: production-vpc
+    instanceTenancy: default
+  providerConfigRef:
+    name: awsconfig
+
+---
+
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: prod-subnet-1
+spec:
+  forProvider:
+    region: us-east-1
+    availabilityZone: us-east-1a
+    cidrBlock: 192.168.1.0/24
+    vpcIdRef:
+      name: production-vpc
+    tags:
+    - key: Environment
+      value: Production
+    - key: Name
+      value: prod-subnet-1
+    - key: Owner
+      value: devops
+    mapPublicIPOnLaunch: true
+  providerConfigRef:
+    name: awsconfig
+
+---
+
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: prod-subnet-2
+spec:
+  forProvider:
+    region: us-east-1
+    availabilityZone: us-east-1b
+    cidrBlock: 192.168.2.0/24
+    vpcIdRef:
+      name: production-vpc
+    tags:
+    - key: Environment
+      value: Production
+    - key: Name
+      value: prod-subnet-2
+    - key: Owner
+      value: devops
+    mapPublicIPOnLaunch: true
+  providerConfigRef:
+    name: awsconfig
+
+---
+
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: prod-subnet-3
+spec:
+  forProvider:
+    region: us-east-1
+    availabilityZone: us-east-1c
+    cidrBlock: 192.168.3.0/24
+    vpcIdRef:
+      name: production-vpc
+    tags:
+    - key: Environment
+      value: Production
+    - key: Name
+      value: prod-subnet-3
+    - key: Owner
+      value: devops
+    mapPublicIPOnLaunch: true
+  providerConfigRef:
+    name: awsconfig
+
+---
+
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: production-internetgateway
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: production-vpc
+  providerConfigRef:
+    name: awsconfig
+
+---
+
+
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: RouteTable
+metadata:
+  name: production-routetable
+spec:
+  forProvider:
+    region: us-east-1
+    routes:
+      - destinationCidrBlock: 0.0.0.0/0
+        gatewayIdRef:
+          name: production-internetgateway
+    associations:
+      - subnetIdRef:
+          name: prod-subnet-2
+      - subnetIdRef:
+          name: prod-subnet-1
+      - subnetIdRef:
+          name: prod-subnet-3
+    vpcIdRef:
+      name: production-vpc
+  providerConfigRef:
+    name: awsconfig
+
+

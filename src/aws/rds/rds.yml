@@ -1,0 +1,60 @@
+apiVersion: database.aws.crossplane.io/v1beta1
+kind: DBSubnetGroup
+metadata:
+  name: prod-subnet-group
+spec:
+  forProvider:
+    region: us-east-1
+    description: "Prod Subnet group"
+    subnetIdRefs:
+      - name: prod-subnet-2
+      - name: prod-subnet-1
+      - name: prod-subnet-3
+  providerConfigRef:
+    name: awsconfig
+
+--- 
+
+apiVersion: database.aws.crossplane.io/v1beta1
+kind: RDSInstance
+metadata:
+  name: production-rds
+spec:
+  forProvider:
+    allocatedStorage: 50
+    autoMinorVersionUpgrade: true
+    applyModificationsImmediately: false
+    backupRetentionPeriod: 0
+    caCertificateIdentifier: rds-ca-2019
+    copyTagsToSnapshot: false
+    dbInstanceClass: db.t2.small
+    dbSubnetGroupName: prod-subnet-group 
+    vpcSecurityGroupIDRefs:
+      - name: rds-access-sg
+    deletionProtection: false
+    enableIAMDatabaseAuthentication: false
+    enablePerformanceInsights: false
+    engine: mysql
+    region: us-east-1
+    engineVersion: 5.6.35
+    finalDBSnapshotIdentifier: muvaf-test
+    licenseModel: general-public-license
+    masterUsername: admin
+    multiAZ: true
+    port: 3306
+    tags:
+    - key: Name
+      value: production-rds
+    - key: Environment
+      value: Production
+    - key: Owner
+      value: Pavan
+    publiclyAccessible: true
+    storageEncrypted: false
+    storageType: gp2
+  providerConfigRef:
+    name: awsconfig
+  writeConnectionSecretToRef:
+    name: production-rds-conn-string
+    namespace: default
+  

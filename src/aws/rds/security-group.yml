@@ -1,0 +1,26 @@
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: SecurityGroup
+metadata:
+  name: rds-access-sg
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: production-vpc 
+    groupName: mysql-sg
+    description: RDS communication to local application Pods 
+    tags:
+    - key: Environment
+      value: Production
+    - key: Owner
+      value: devops
+    - key: Name
+      value: rds-access-sg
+    ingress:
+      - fromPort: 3306
+        toPort: 3306
+        ipProtocol: tcp
+        ipRanges:
+          - cidrIp: 0.0.0.0/0
+  providerConfigRef:
+    name: awsconfig
