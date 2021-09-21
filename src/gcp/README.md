@@ -27,6 +27,11 @@
     nodepool.container.gcp.crossplane.io/devops-cluster configured
     ```
 
+- connect to GKE cluster
+    ```
+    gcloud container clusters get-credentials devops-cluster --region us-east1 --project <project-name>
+    ```
+
 - cleanup
     ```
     % kubectl delete -f ./gke.yml
