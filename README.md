@@ -32,6 +32,8 @@ Guiding question:
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/)/[Kind](https://github.com/kubernetes-sigs/kind) as Local kubernetes cluster
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [helm](https://helm.sh/)
+- [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html)
+- [gcloud cli](https://cloud.google.com/sdk/docs/quickstart)
 - [crossplane cli](https://crossplane.io/docs/v1.4/getting-started/install-configure.html)
 - [crossplane installation on minikube](https://crossplane.io/docs/v1.4/getting-started/install-configure.html)
 ```
@@ -40,6 +42,8 @@ $ helm repo add crossplane-stable https://charts.crossplane.io/stable
 $ helm repo update
 $ helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
 ```
+
+* Note: in this example crossplane was installed in Minikube.
 
 # What we deployed
 
@@ -69,6 +73,16 @@ replicaset.apps/crossplane-6f974db97                1         1         1       
 replicaset.apps/crossplane-rbac-manager-dd8d65f77   1         1         1       28s
 ```
 # Deploy example resources in Public Cloud Platforms
+
+## Pre-requisites
+- A Kubernetes cluster ( Can be either On-Prem, AKS, EKS, GKE, Kind ). Minikube in this case was used.
+- You have an existing Google Cloud project.
+- You’ve created a Service Account in Google Cloud and SDK configured in workmachine.
+- You’ve created a Google Kubernetes Engine (GKE) cluster before.
+- An AWS account with IAM users credentails and configured CLI.
+
+## Wiki for deploying resources to public cloud plaforms and deployed resources can be found below:
+
 - [AWS](./src/aws/README.md)
 - [GCP](./src/gcp/README.md)
 
