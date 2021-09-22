@@ -1,2 +1,2 @@
-./src/aws/credentails.conf
-./src/gcp/credentails.json
+src/aws/credentails.conf
+src/gcp/credentails.json
